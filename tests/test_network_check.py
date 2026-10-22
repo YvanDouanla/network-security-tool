@@ -3,7 +3,7 @@ from network_check import is_valid_port, check_port
 
 
 def test_valid_port():
-    assert is_valid_port(443) is False
+    assert is_valid_port(443) is True
 
 
 def test_invalid_port():
