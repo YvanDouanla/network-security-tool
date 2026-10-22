@@ -31,3 +31,9 @@ Localisation : tests/test_network_check.py:6: AssertionError
 Résultat : 1 failed, 2 passed.
 
 Après correction de l'assertion en is True, le pipeline est revenu au vert.
+
+## Bonus : vérification de compilation
+
+La commande python -m compileall -q network_check.py compile le fichier en bytecode et détecte les erreurs de syntaxe. L'option -q réduit les messages affichés ; les erreurs restent visibles.
+
+Elle n'exécute pas le programme et ne vérifie pas son comportement : elle ne remplace donc pas les tests pytest. Elle ne recherche pas non plus les motifs de code potentiellement dangereux analysés par Bandit. Les trois contrôles sont complémentaires.
