@@ -1,7 +1,5 @@
-@'
-# Network Security Tool
+﻿# Network Security Tool
 
 A simple Python project for network security students.
 
 Author: Douanla Yvan
-'@ | Set-Content -Encoding UTF8 README.md
