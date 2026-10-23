@@ -1,0 +1,35 @@
+name: Docker image security
+
+on:
+  push:
+    branches: [main, "feature/**"]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build API image
+        run: docker build --pull -t network-security-tool-api:ci -f api/Dockerfile .
+
+      - name: Export API image
+        run: |
+          mkdir -p "$RUNNER_TEMP/trivy-scan"
+          docker image save --output "$RUNNER_TEMP/trivy-scan/api.tar" network-security-tool-api:ci
+
+      - name: Scan image with Trivy
+        run: |
+          docker run --rm \
+            --mount "type=bind,source=$RUNNER_TEMP/trivy-scan,target=/scan,readonly" \
+            aquasec/trivy:0.76.1 image \
+            --input /scan/api.tar \
+            --scanners vuln \
+            --exit-code 1 \
+            --severity HIGH,CRITICAL
